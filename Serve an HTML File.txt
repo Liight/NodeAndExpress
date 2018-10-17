@@ -1,0 +1,74 @@
+Basic Node and Express - Serve an HTML File
+We can respond with a file using the method res.sendFile(path).
+
+You can put it inside the app.get('/', ...) route handler. Behind the scenes this method will set the appropriate headers to instruct your browser on how to handle the file you want to send, according to its type. Then it will read and send the file. This method needs an absolute file path. We recommend you to use the Node global variable __dirname to calculate the path.
+
+e.g. absolutePath = __dirname + relativePath/file.ext.
+
+The file to send is /views/index.html. Try to ‘Show Live’ your app, you should see a big HTML heading (and a form that we will use later…), with no style applied.
+
+Note: You can edit the solution of the previous challenge, or create a new one. If you create a new solution, keep in mind that Express evaluates the routes from top to bottom. It executes the handler for the first match. You have to comment out the preceding solution, or the server will keep responding with a string.
+
+Exercise: (app.js)
+
+var express = require('express');
+var app = express();
+var path = require('path');
+
+app.get('/',  function(req, res){
+  res.sendFile(path.join(__dirname + '/views/index.html'));
+})
+
+// --> 7)  Mount the Logger middleware here
+
+
+// --> 11)  Mount the body-parser middleware  here
+
+
+/** 1) Meet the node console. */
+
+
+/** 2) A first working Express Server */
+
+
+/** 3) Serve an HTML file */
+
+
+/** 4) Serve static assets  */
+
+
+/** 5) serve JSON on a specific route */
+
+
+/** 6) Use the .env file to configure the app */
+ 
+ 
+/** 7) Root-level Middleware - A logger */
+//  place it before all the routes !
+
+
+/** 8) Chaining middleware. A Time server */
+
+
+/** 9)  Get input from client - Route parameters */
+
+
+/** 10) Get input from client - Query parameters */
+// /name?first=<firstname>&last=<lastname>
+
+  
+/** 11) Get ready for POST Requests - the `body-parser` */
+// place it before all the routes !
+
+
+/** 12) Get data form POST  */
+
+
+
+// This would be part of the basic setup of an Express app
+// but to allow FCC to run tests, the server is already active
+/** app.listen(process.env.PORT || 3000 ); */
+
+//---------- DO NOT EDIT BELOW THIS LINE --------------------
+
+ module.exports = app;
