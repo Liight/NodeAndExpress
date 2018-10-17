@@ -1,0 +1,75 @@
+Basic Node and Express - Serve JSON on a Specific Route
+While an HTML server serves (you guessed it!) HTML, an API serves data. A REST (REpresentational State Transfer) API allows data exchange in a simple way, without the need for clients to know any detail about the server. The client only needs to know where the resource is (the URL), and the action it wants to perform on it (the verb). The GET verb is used when you are fetching some information, without modifying anything. These days, the preferred data format for moving information around the web is JSON. Simply put, JSON is a convenient way to represent a JavaScript object as a string, so it can be easily transmitted.
+
+Let's create a simple API by creating a route that responds with JSON at the path /json. You can do it as usual, with the app.get() method. Inside the route handler use the method res.json(), passing in an object as an argument. This method closes the request-response loop, returning the data. Behind the scenes it converts a valid JavaScript object into a string, then sets the appropriate headers to tell your browser that you are serving JSON, and sends the data back. A valid object has the usual structure {key: data}. Data can ba a number, a string, a nested object or an array. Data can also be a variable or the result of a function call; in which case it will be evaluated before being converted into a string.
+
+Serve the object {"message": "Hello json"} as a response in JSON format, to the GET requests to the route /json. Then point your browser to your-app-url/json, you should see the message on the screen.
+
+Exercise: (app.js)
+
+
+var express = require('express');
+var app = express();
+var path = require('path');
+
+
+
+
+
+// --> 7)  Mount the Logger middleware here
+
+
+// --> 11)  Mount the body-parser middleware  here
+
+
+/** 1) Meet the node console. */
+
+
+/** 2) A first working Express Server */
+
+
+/** 3) Serve an HTML file */
+app.get('/',  function(req, res){
+  res.sendFile(path.join(__dirname + '/views/index.html'));
+})
+
+/** 4) Serve static assets  */
+app.use(express.static(__dirname + '/public'));
+
+/** 5) serve JSON on a specific route */
+app.get('/json', function(req,res){
+  res.json({"message": "Hello json"});
+});
+
+/** 6) Use the .env file to configure the app */
+ 
+ 
+/** 7) Root-level Middleware - A logger */
+//  place it before all the routes !
+
+
+/** 8) Chaining middleware. A Time server */
+
+
+/** 9)  Get input from client - Route parameters */
+
+
+/** 10) Get input from client - Query parameters */
+// /name?first=<firstname>&last=<lastname>
+
+  
+/** 11) Get ready for POST Requests - the `body-parser` */
+// place it before all the routes !
+
+
+/** 12) Get data form POST  */
+
+
+
+// This would be part of the basic setup of an Express app
+// but to allow FCC to run tests, the server is already active
+/** app.listen(process.env.PORT || 3000 ); */
+
+//---------- DO NOT EDIT BELOW THIS LINE --------------------
+
+ module.exports = app;

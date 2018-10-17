@@ -1,0 +1,73 @@
+Basic Node and Express - Serve Static Assets
+An HTML server usually has one or more directories that are accessible by the user. You can place there the static assets needed by your application (stylesheets, scripts, images). In Express you can put in place this functionality using the middleware express.static(path), where the parameter is the absolute path of the folder containing the assets. If you don’t know what a middleware is, don’t worry. We’ll discuss about it later in details. Basically middlewares are functions that intercept route handlers, adding some kind of information. A middleware needs to be mounted using the method app.use(path, middlewareFunction). The first path argument is optional. If you don’t pass it, the middleware will be executed for all the requests.
+
+Mount the express.static() middleware for all the requests with app.use(). The absolute path to the assets folder is __dirname + /public.
+
+Now your app should be able to serve a CSS stylesheet. From outside the public folder will appear mounted to the root directory. Your front-page should look a little better now!
+
+Exercise: (app.js)
+
+
+var express = require('express');
+var app = express();
+var path = require('path');
+
+app.get('/',  function(req, res){
+  res.sendFile(path.join(__dirname + '/views/index.html'));
+})
+
+app.use(express.static(__dirname + '/public'));
+
+// --> 7)  Mount the Logger middleware here
+
+
+// --> 11)  Mount the body-parser middleware  here
+
+
+/** 1) Meet the node console. */
+
+
+/** 2) A first working Express Server */
+
+
+/** 3) Serve an HTML file */
+
+
+/** 4) Serve static assets  */
+
+
+/** 5) serve JSON on a specific route */
+
+
+/** 6) Use the .env file to configure the app */
+ 
+ 
+/** 7) Root-level Middleware - A logger */
+//  place it before all the routes !
+
+
+/** 8) Chaining middleware. A Time server */
+
+
+/** 9)  Get input from client - Route parameters */
+
+
+/** 10) Get input from client - Query parameters */
+// /name?first=<firstname>&last=<lastname>
+
+  
+/** 11) Get ready for POST Requests - the `body-parser` */
+// place it before all the routes !
+
+
+/** 12) Get data form POST  */
+
+
+
+// This would be part of the basic setup of an Express app
+// but to allow FCC to run tests, the server is already active
+/** app.listen(process.env.PORT || 3000 ); */
+
+//---------- DO NOT EDIT BELOW THIS LINE --------------------
+
+ module.exports = app;
