@@ -1,0 +1,90 @@
+Basic Node and Express - Get Route Parameter Input from the Client
+When building an API, we have to allow users to communicate to us what they want to get from our service. For example, if the client is requesting information about a user stored in the database, they need a way to let us know which user they're interested in. One possible way to achieve this result is by using route parameters. Route parameters are named segments of the URL, delimited by slashes (/). Each segment captures the value of the part of the URL which matches its position. The captured values can be found in the req.params object.
+
+route_path: '/user/:userId/book/:bookId'
+actual_request_URL: '/user/546/book/6754' 
+req.params: {userId: '546', bookId: '6754'}
+Build an echo server, mounted at the route GET /:word/echo. Respond with a JSON object, taking the structure {echo: word}. You can find the word to be repeated at req.params.word. You can test your route from your browser's address bar, visiting some matching routes, e.g. your-app-rootpath/freecodecamp/echo
+
+Exercise: (app.js)
+
+
+var express = require('express');
+var app = express();
+var path = require('path');
+
+
+
+
+
+// --> 7)  Mount the Logger middleware here
+app.use((req, res, next)=>{
+  console.log(req.method + ' ' + req.path + ' - ' + req.ip);
+  next();
+});
+
+// --> 11)  Mount the body-parser middleware  here
+
+
+/** 1) Meet the node console. */
+
+
+/** 2) A first working Express Server */
+
+
+/** 3) Serve an HTML file */
+app.get('/',  function(req, res){
+  res.sendFile(path.join(__dirname + '/views/index.html'));
+})
+
+/** 4) Serve static assets  */
+app.use(express.static(__dirname + '/public'));
+
+/** 5) serve JSON on a specific route */
+app.get('/json', function(req,res){
+  if (process.env.MESSAGE_STYLE == 'uppercase'){
+    res.json({"message": "HELLO JSON"});
+  }
+  res.json({"message": "Hello json"});
+});
+
+/** 6) Use the .env file to configure the app */
+ 
+ 
+/** 7) Root-level Middleware - A logger */
+//  place it before all the routes !
+
+
+/** 8) Chaining middleware. A Time server */
+  app.get('/now', (req, res, next)=>{
+      req.time = new Date().toString();
+      next();
+    },(req,res)=>{
+      res.json({time: req.time});
+    }
+  );
+
+/** 9)  Get input from client - Route parameters */
+app.get('/:word/echo', (req,res)=>{
+  res.json({echo: req.params.word});
+});
+
+/** 10) Get input from client - Query parameters */
+// /name?first=<firstname>&last=<lastname>
+
+  
+/** 11) Get ready for POST Requests - the `body-parser` */
+// place it before all the routes !
+
+
+/** 12) Get data form POST  */
+
+
+
+// This would be part of the basic setup of an Express app
+// but to allow FCC to run tests, the server is already active
+/** app.listen(process.env.PORT || 3000 ); */
+
+//---------- DO NOT EDIT BELOW THIS LINE --------------------
+
+ module.exports = app;
