@@ -1,0 +1,96 @@
+Basic Node and Express - Get Query Parameter Input from the Client
+Another common way to get input from the client is by encoding the data after the route path, using a query string. The query string is delimited by a question mark (?), and includes field=value couples. Each couple is separated by an ampersand (&). Express can parse the data from the query string, and populate the object req.query. Some characters cannot be in URLs, they have to be encoded in a different format before you can send them. If you use the API from JavaScript, you can use specific methods to encode/decode these characters.
+
+route_path: '/library'
+actual_request_URL: '/library?userId=546&bookId=6754' 
+req.query: {userId: '546', bookId: '6754'}
+Build an API endpoint, mounted at GET /name. Respond with a JSON document, taking the structure { name: 'firstname lastname'}. The first and last name parameters should be encoded in a query string e.g. ?first=firstname&last=lastname.
+
+TIP: In the following exercise we are going to receive data from a POST request, at the same /name route path. If you want you can use the method app.route(path).get(handler).post(handler). This syntax allows you to chain different verb handlers on the same path route. You can save a bit of typing, and have cleaner code.
+
+Exercise: (app.js)
+
+
+var express = require('express');
+var app = express();
+var path = require('path');
+
+
+
+
+
+// --> 7)  Mount the Logger middleware here
+app.use((req, res, next)=>{
+  console.log(req.method + ' ' + req.path + ' - ' + req.ip);
+  next();
+});
+
+// --> 11)  Mount the body-parser middleware  here
+
+
+/** 1) Meet the node console. */
+
+
+/** 2) A first working Express Server */
+
+
+/** 3) Serve an HTML file */
+app.get('/',  function(req, res){
+  res.sendFile(path.join(__dirname + '/views/index.html'));
+})
+
+/** 4) Serve static assets  */
+app.use(express.static(__dirname + '/public'));
+
+/** 5) serve JSON on a specific route */
+app.get('/json', function(req,res){
+  if (process.env.MESSAGE_STYLE == 'uppercase'){
+    res.json({"message": "HELLO JSON"});
+  }
+  res.json({"message": "Hello json"});
+});
+
+/** 6) Use the .env file to configure the app */
+ 
+ 
+/** 7) Root-level Middleware - A logger */
+//  place it before all the routes !
+
+
+/** 8) Chaining middleware. A Time server */
+  app.get('/now', (req, res, next)=>{
+      req.time = new Date().toString();
+      next();
+    },(req,res)=>{
+      res.json({time: req.time});
+    }
+  );
+
+/** 9)  Get input from client - Route parameters */
+app.get('/:word/echo', (req,res)=>{
+  res.json({echo: req.params.word});
+});
+
+/** 10) Get input from client - Query parameters */
+// /name?first=<firstname>&last=<lastname>
+app.get('/name',(req, res)=>{
+  let first = req.query.first;
+  let last = req.query.last;
+  res.json({name: `${first} ${last}`});
+});
+  
+/** 11) Get ready for POST Requests - the `body-parser` */
+// place it before all the routes !
+
+
+/** 12) Get data form POST  */
+
+
+
+// This would be part of the basic setup of an Express app
+// but to allow FCC to run tests, the server is already active
+/** app.listen(process.env.PORT || 3000 ); */
+
+//---------- DO NOT EDIT BELOW THIS LINE --------------------
+
+ module.exports = app;
