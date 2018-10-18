@@ -1,0 +1,107 @@
+Basic Node and Express - Get Data from POST Requests
+Mount a POST handler at the path /name. It’s the same path as before. We have prepared a form in the html frontpage. It will submit the same data of exercise 10 (Query string). If the body-parser is configured correctly, you should find the parameters in the object req.body. Have a look at the usual library example:
+
+route: POST '/library'
+urlencoded_body: userId=546&bookId=6754 
+req.body: {userId: '546', bookId: '6754'}
+Respond with the same JSON object as before: {name: 'firstname lastname'}. Test if your endpoint works using the html form we provided in the app frontpage.
+
+Tip: There are several other http methods other than GET and POST. And by convention there is a correspondence between the http verb, and the operation you are going to execute on the server. The conventional mapping is:
+
+POST (sometimes PUT) - Create a new resource using the information sent with the request,
+
+GET - Read an existing resource without modifying it,
+
+PUT or PATCH (sometimes POST) - Update a resource using the data sent,
+
+DELETE => Delete a resource.
+
+There are also a couple of other methods which are used to negotiate a connection with the server. Except from GET, all the other methods listed above can have a payload (i.e. the data into the request body). The body-parser middleware works with these methods as well.
+
+Exercise: (app.js)
+
+
+var express = require('express');
+var path = require('path');
+var bodyParser = require('body-parser');
+
+var app = express();
+
+// --> 7)  Mount the Logger middleware here
+app.use((req, res, next)=>{
+  console.log(req.method + ' ' + req.path + ' - ' + req.ip);
+  next();
+});
+
+// --> 11)  Mount the body-parser middleware  here
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+/** 1) Meet the node console. */
+
+
+/** 2) A first working Express Server */
+
+
+/** 3) Serve an HTML file */
+app.get('/',  function(req, res){
+  res.sendFile(path.join(__dirname + '/views/index.html'));
+})
+
+/** 4) Serve static assets  */
+app.use(express.static(__dirname + '/public'));
+
+/** 5) serve JSON on a specific route */
+app.get('/json', function(req,res){
+  if (process.env.MESSAGE_STYLE == 'uppercase'){
+    res.json({"message": "HELLO JSON"});
+  }
+  res.json({"message": "Hello json"});
+});
+
+/** 6) Use the .env file to configure the app */
+ 
+ 
+/** 7) Root-level Middleware - A logger */
+//  place it before all the routes !
+
+
+/** 8) Chaining middleware. A Time server */
+  app.get('/now', (req, res, next)=>{
+      req.time = new Date().toString();
+      next();
+    },(req,res)=>{
+      res.json({time: req.time});
+    }
+  );
+
+/** 9)  Get input from client - Route parameters */
+app.get('/:word/echo', (req,res)=>{
+  res.json({echo: req.params.word});
+});
+
+/** 10) Get input from client - Query parameters */
+// /name?first=<firstname>&last=<lastname>
+app.get('/name',(req, res)=>{
+  let first = req.query.first;
+  let last = req.query.last;
+  res.json({name: `${first} ${last}`});
+});
+  
+/** 11) Get ready for POST Requests - the `body-parser` */
+// place it before all the routes !
+app.post('/name',(req,res)=>{
+  res.json({name: `${req.body.first} ${req.body.last}`});
+});
+
+/** 12) Get data form POST  */
+
+
+
+// This would be part of the basic setup of an Express app
+// but to allow FCC to run tests, the server is already active
+/** app.listen(process.env.PORT || 3000 ); */
+
+//---------- DO NOT EDIT BELOW THIS LINE --------------------
+
+ module.exports = app;
